@@ -1,0 +1,3515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>I hate Moondays!</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #d8c4a3;
+      color: #111;
+    }
+
+    .page {
+      max-width: 820px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.16) 0 1px, transparent 1px),
+        radial-gradient(circle at 80% 30%, rgba(255,255,255,0.12) 0 1px, transparent 1px),
+        #efe1c6;
+      background-size: 34px 34px;
+      border-left: 1px solid #b9a98c;
+      border-right: 1px solid #b9a98c;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: #075e54;
+      color: #fff;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+    }
+
+    .topbar-icons
+    {
+      display: flex;
+      gap: 33.5px;
+      margin-left: auto;
+    }
+
+    .icon
+    {
+      width: 30.5px;
+      height: 30.5px;
+      filter: brightness(0) invert(1);
+      cursor: pointer;
+    }
+
+    .back-arrow
+    {
+      display: flex;
+      align-items: center;
+      padding-right: 10px;
+    }
+
+    .back-icon
+    {
+      width: 29.5px;
+      height: 29.5px;
+      filter: brightness(0) invert(1);
+      cursor: pointer;
+    }
+
+
+    .avatar {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      background: #d9fdd3;
+      color: #075e54;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 23.5px;
+      flex: 0 0 auto;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .avatar img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .chat-title {
+      line-height: 1.2;
+    }
+
+    .chat-title h1 {
+      margin: 0;
+      font-size: 27.5px;
+      font-weight: 600;
+    }
+
+    .chat-title p {
+      margin: 3px 0 0;
+      font-size: 20.5px;
+      opacity: 0.85;
+    }
+
+    .chat {
+      padding: 18px 16px 34px;
+    }
+
+    .date-chip,
+    .system-chip {
+      width: fit-content;
+      max-width: 78%;
+      margin: 12px auto;
+      padding: 7px 12px;
+      border-radius: 8px;
+      background: #000000;
+      color: #efefef;
+      font-size: 18px;
+      text-align: center;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.12);
+    }
+
+    .system-chip {
+      background: #000000;
+      font-style: normal;
+    }
+
+    .message-row {
+      display: flex;
+      margin: 10px 0;
+      clear: both;
+    }
+
+    .message-row.sent {
+      justify-content: flex-end;
+      margin-left: 60px ;
+    }
+
+    .message-row.received {
+      justify-content: flex-start;
+      margin-right: 60px;
+    }
+
+    .bubble {
+      max-width: 67.5%;
+      padding: 12px 14px 10px;
+      border-radius: 15px;
+      position: relative;
+      font-size: 20px;
+      line-height: 1.42;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+      white-space: normal;
+    }
+
+    .sent .bubble {
+      background: #d9fdd3;
+      border-top-right-radius: 0;
+    }
+
+    .received .bubble {
+      background: #fff;
+      border-top-left-radius: 0;
+    }
+
+    .name {
+      font-weight: 700;
+      font-size: 12px;
+      margin-bottom: 3px;
+      display: none;
+    }
+
+    .sent .name {
+      color: #128c7e;
+    }
+
+    .received .name {
+      color: #8b5cf6;
+    }
+
+    .meta {
+      float: right;
+      margin-left: 15.5px;
+      margin-top: 9.5px;
+      font-size: 16.5px;
+      color: #667781;
+      white-space: nowrap;
+    }
+
+    .ticks {
+      color: #34b7f1;
+      font-weight: 700;
+      margin-left: 3px;
+      letter-spacing: -2px;
+    }
+
+    .image-bubble img {
+      display: block;
+      max-width: 100%;
+      border-radius: 7px;
+      margin-bottom: 6px;
+    }
+
+    .img-row
+    {
+      display: flex;
+      gap: 6px;
+    }
+
+    .img-row img
+    {
+      width: 48%;
+      border-radius: 7px;
+      object-fit: cover;
+    }
+
+    .caption {
+      white-space: normal;
+    }
+
+    .table-card {
+      max-width: 92%;
+      margin: 12px auto;
+      background: #fff;
+      border-radius: 9px;
+      padding: 10px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.18);
+      font-size: 13px;
+      overflow: hidden;
+    }
+
+    .table-title {
+      text-align: center;
+      font-weight: 700;
+      color: #54656f;
+      margin-bottom: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      font-size: 11.5px;
+    }
+
+    th, td {
+      border: 1px solid #d6d6d6;
+      padding: 6px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    th {
+      background: #f1f5f9;
+      font-weight: 700;
+    }
+
+    .formula {
+      display: block;
+      text-align: center;
+      font-weight: 600;
+      margin: 7px 0;
+      letter-spacing: 0.2px;
+    }
+
+    @media print {
+      body {
+        background: #efe1c6;
+      }
+
+      .page {
+        max-width: none;
+        width: 100%;
+        border: 0;
+      }
+
+      .topbar {
+        position: static;
+      }
+
+      .bubble {
+        break-inside: avoid;
+      }
+
+      .table-card {
+        break-inside: avoid;
+      }
+
+      .message-row {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div class="topbar">
+      <div class="back-arrow">
+        <img src="media/back_arrow.png" class="back-icon">
+      </div>
+      <div class="avatar">
+       <img src="media/Dp.jpeg" alt="Dp">
+      </div>
+      <div class="chat-title">
+        <h1>Gay Chhele</h1>
+        <p>online</p>
+      </div>
+      <div class="topbar-icons">
+      <img src="media/video_filled.png" class="icon">
+      <img src="media/phone.png" class="icon">
+      <img src="media/more.png" class="icon">  
+      </div>
+    </div>
+
+    <div class="chat">
+
+      <div class="date-chip">Today</div>
+      <div class="system-chip"> আচ্ছা … পয়লা বৈশাখ কেন দোলে না?</div>
+      
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          শুভ নববর্ষ babe! কি হাল?
+          <span class="meta">10:00 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          শুভ নববর্ষ! এই চলছে। বাসু এখনো ঝাঁট জ্বালাচ্ছে রোজ।
+          <span class="meta">10:01</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          PhD টা শেষ হলে বাঁচি।
+          <span class="meta">10:01</span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          Sad babe!
+          <span class="meta">10:02 <span class="ticks">✓✓</span></span>
+          </div>
+      </div>
+          
+      <div class="message-row received">
+        <div class="bubble">
+            <div class="name">Nyada</div>
+            হুঁ। কি করা যায়!
+          <span class="meta">10:04</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+            <div class="name">Nyada</div>
+            তুমি বলো babe, কোনো hot ছেলে propose করলো?
+          <span class="meta">10:04</span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          না babe! Jindegi jhand হয়ে আছে। 
+          <span class="meta">10:05 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          এদিকে paper টা হচ্ছে না ওদিকে AOT নিয়েও ব্যস্ত। 
+          <span class="meta">10:05 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Btw babe, আমার Black Holes নিয়ে একটা talk আছে কালকে AOT তে।
+          <span class="meta">10:06 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          I'm so excited! 😬
+          <span class="meta">10:06 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+      
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          ওফ ন্যাদা এই তো এবার সব flaaat হয়ে যাবে!
+          <span class="meta">10:08</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          আমাকে hot boys এর ছবি পাঠিও babe!
+          <span class="meta">10:08</span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          ধূরর mostly বুড়া রা আসে! So unless you are into them
+          <span class="meta">10:10 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          I mean hot daddies are fine. আমি তো আর বান্টুর মতন pedo নয়!
+          <span class="meta">10:10</span>
+        </div>
+      </div>
+
+      <div class="system-chip"> বান্টু in the corner:- কোচি কোচি সুন্দর সুন্দর তরুণী … উমমাঃ</div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          কিইইই সব!
+          <span class="meta">10:11 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          আচ্ছা babe babe! I had a question.
+          <span class="meta">10:13</span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          বলে ফ্যালো babe!
+          <span class="meta">10:14 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          আমি একটা জিনিস দেখছিলাম। 
+          <span class="meta">10:15</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          এই বর্গী গুলার New Year যাকে এরা "गुढी पाडवा" বলে, সেইটা every year oscillate করতে থাকে। 
+          <span class="meta">10:15</span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>   
+          Oscillate?
+          <span class="meta">10:16 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          মানে যদি এই year এ गुढी पाडवा 19th March হয়ে then next year এ হয়তো সেটা 7th April হবে।
+          <span class="meta">10:17</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Next to next year it will be on 27th March.
+          <span class="meta">10:17</span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>   
+          Right!
+          <span class="meta">10:18 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>   
+          ঠিক যেমন ধর দুর্গা পূজো প্রতি বছর oscillate করে।
+          <span class="meta">10:18 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Right!
+          <span class="meta">10:19</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          কিন্তু তাহলে পয়লা বৈশাখ কেনো oscillate করে না জানো babe?
+          <span class="meta">10:20</span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          হ্যাঁ babe it's veryyy interesting!
+          <span class="meta">10:21 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          আচ্ছা তার আগে তোমাকে আমি একটা জিনিস জিজ্ঞেস করি।
+          <span class="meta">10:21 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          আমাদের যে পিঠে পার্বণ হয়ে 15th January তে
+          <span class="meta">10:22 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          সেটাও oscillate করে না right?
+          <span class="meta">10:22 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+           সেটা কেন জানো babe?
+          <span class="meta">10:23 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>      
+      
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          হ্যাঁ of course! It's same as মকর সংক্রান্তি right?
+          <span class="meta">10:24</span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+           হ্যাঁ
+          <span class="meta">10:24 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>    
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          যা মনে পড়ছে, it celebrates the Sun leaving ধনু (Sagittarius) and entering মকর (Capricornus).
+          <span class="meta">10:25</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          And পুরো India তে একি দিনে similar festival celebrate করে।
+          <span class="meta">10:25</span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          Exactly, its a solar festival!
+          <span class="meta">10:26 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          যেহেতু সূর্য 365 দিন পরে একি যায়গায় ফিরে আসে, তাই the celebration date remains fixed.
+          <span class="meta">10:27 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          ঠিক ঠিক। আমাদের stargazing team এ এইগুলো নিয়ে খুব আলোচনা হয়। 
+          <span class="meta">10:29</span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          Wow! তোদের কি ভালো friend circle ভাই।
+          <span class="meta">10:30 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          না babe সব‌ যায়গাই এক‌ই! এর মধ্যে ও অনেক বালের লোকজন আছে।
+          <span class="meta">10:32</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          আবার ভালোও আছে। 
+          <span class="meta">10:32</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          যেমন ধর এই লালবাল এর ছেলে - পাণু the Great
+          <span class="meta">10:33</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          পাণু বলছিল this festival is a telltale sign of the slow precession of Earth, কিন্তু I don't exactly remember how!
+          <span class="meta">10:34</span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          Great না ছাই!
+          <span class="meta">10:35 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          মাল্টা thesis thesis করে কেটে পরলো।
+          <span class="meta">10:35 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          আমার AOT Mumbai এর কি হবে! 😭
+          <span class="meta">10:36 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Zindagi jhandwa babe! কি করবা!
+          <span class="meta">10:37</span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          সেই! 
+          <span class="meta">10:38 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          সে যাই হোক, it is true যে precession এর most beautiful example এই festival টা। 
+          <span class="meta">10:39 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          কিন্তু সে না হয়ে অন্য কোনো দিন আলোচনা করা যাবে।
+          <span class="meta">10:40 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          আপাতত এইটা মাথায় রাখ্ যে এইটা solar festival বলে date টা fixed!
+          <span class="meta">10:40 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Right আমি এটাই ভাবছিলাম babe, যে তাহলে হয়তো বাংলা calendar actually lunar নয় but solar.
+          <span class="meta">10:42</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          কিন্তু সেটা হলে how come দুর্গা পূজো is oscillating?
+          <span class="meta">10:42</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div> 
+          This makes me think it must be a lunar calendar then!
+          <span class="meta">10:43</span>
+        </div>
+      </div>
+
+      <!-- Nyada Start -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          কিন্তু babe purely lunar calendar হলে অন্য problem হয়ে যাবে right?
+          <span class="meta">10:45 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div> 
+          কি রকম?
+          <span class="meta">10:46</span>
+        </div>
+      </div>
+ 
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Lunar calendar এ 12 টা মাস হয়ে। Each month starts with a New Moon and ends with the next one.
+          <span class="meta">10:47 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Correct!
+          <span class="meta">10:47</span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          On an average, the month length is 29.5 days.
+          <span class="meta">10:48 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Nyada 
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Usually, মাসের প্রথম দিন শুরু হয়ে অমাবস্যা থেকে আর শেষ হয়ে পরের অমাবস্যা তে।
+          <span class="meta">10:49 <span class="ticks">✓✓</span></span>
+        </div>
+      </div> -->
+
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          তাহলে দ্যাখ total number of days in a lunar year equates to 354 days, which is 11 days shorter than a solar year!
+          <span class="meta">10:50 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Oh riiiiight! হ্যাঁ আমি এটা জানতাম।
+          <span class="meta">10:51</span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          আর বুঝেছি তুই কি বলবি।
+          <span class="meta">10:51</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Every lunar year যদি solar year এর থেকে 11 দিন করে পিছিয়ে যায়
+          <span class="meta">10:52</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Then এরম করতে করতে 10 solar years পরে, দুর্গা পূজো প্রায় 4 মাস পিছিয়ে যাবে।
+          <span class="meta">10:52</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Absolutely!
+          <span class="meta">10:53 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Instead of celebrating দুর্গা পূজো in September, we will be celebrating it in May, গরমের মধ্যে!
+          <span class="meta">10:54</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          ভ্যাপসা গরম!
+          <span class="meta">10:54 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Btw তুই probably জানিস but এই টাই হয়ে with most Islamic festivals.
+          <span class="meta">10:55 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          যেমন Eid-ul-fitr কখনো winter এ পড়ে, তো কখনো summer এ।
+          <span class="meta">10:56 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Exactly just বলতে যাচ্ছিলাম!
+          <span class="meta">10:56</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          হ্যাঁ।
+          <span class="meta">10:57 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          এই chart টা দ্যাখ তোকে পাঠাচ্ছি।
+          <span class="meta">10:58 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          It lists the Gregorian dates for Hijri (Islamic) New Year and Eid-ul-fitr from 2000 to 2020.
+          <span class="meta">10:58 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-title">Drifting of Islamic festivals</div>
+        <table>
+          <thead>
+            <tr>
+              <th> Hijri New Year </th>
+              <th> Eid-ul-fitr </th>
+              <th> Gregorian Year </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>6 Apr</td><td>8 Jan & 28 Dec</td><td>2000</td></tr>
+            <tr><td>26 Mar</td><td>16 Dec</td><td>2001</td></tr>
+            <tr><td>15 Mar</td><td>5 Dec</td><td>2002</td></tr>
+            <tr><td>5 Mar</td><td>25 Nov</td><td>2003</td></tr>
+            <tr><td>22 Feb</td><td>14 Nov</td><td>2004</td></tr>
+            <tr><td>10 Feb</td><td>3 Nov</td><td>2005</td></tr>
+            <tr><td>31 Jan</td><td>23 Oct</td><td>2006</td></tr>
+            <tr><td>20 Jan</td><td>13 Oct</td><td>2007</td></tr>
+            <tr><td>10 Jan & 29 Dec</td><td>1 Oct</td><td>2008</td></tr>
+            <tr><td>18 Dec</td><td>20 Sep</td><td>2009</td></tr>
+            <tr><td>7 Dec</td><td>10 Sep</td><td>2010</td></tr>
+            <tr><td>26 Nov</td><td>31 Aug</td><td>2011</td></tr>
+            <tr><td>15 Nov</td><td>19 Aug</td><td>2012</td></tr>
+            <tr><td>4 Nov</td><td>8 Aug</td><td>2013</td></tr>
+            <tr><td>25 Oct</td><td>28 Jul</td><td>2014</td></tr>
+            <tr><td>14 Oct</td><td>17 Jul</td><td>2015</td></tr>
+            <tr><td>3 Oct</td><td>6 Jul</td><td>2016</td></tr>
+            <tr><td>21 Sep</td><td>25 Jun</td><td>2017</td></tr>
+            <tr><td>11 Sep</td><td>15 Jun</td><td>2018</td></tr>
+            <tr><td>31 Aug</td><td>4 Jun</td><td>2019</td></tr>
+            <tr><td>20 Aug</td><td>24 May</td><td>2020</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Wow!
+          <span class="meta">11:00</span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          শালা মোসলা গুলো কোনো কোনো বছরে ২ টো করে New Year celebrate করে।
+          <span class="meta">11:00</span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          So unfair!
+          <span class="meta">11:01</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Sed lyf bruh!
+          <span class="meta">11:02 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          But হ্যাঁ I see your point. So it cannot be a purely lunar calendar.
+          <span class="meta">11:03</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          একদম!
+          <span class="meta">11:04 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          আচ্ছা babe, can I quickly ask you a different question?
+          <span class="meta">11:05</span>
+        </div>
+      </div>
+
+       <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Anytime baby!
+          <span class="meta">11:06 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+    
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          You said আমাদের 12 টা মাস হয়
+          <span class="meta">11:07</span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          তাই তুই 29.5 কে 12 দিয়ে multiply করলি to get 354 days.
+          <span class="meta">11:07</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          But 12 টাই মাস কেনো? Has it something to do with the Zodiacs?
+          <span class="meta">11:08</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          It's actually the opposite babe!
+          <span class="meta">11:10 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          The Egyptians and Babylonians discovered that there are a few numbers with a lot of divisors - like 12, 24, 30, 60, 180 and 360.
+          <span class="meta">11:11 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Which is why they divided the sky into 12 Zodiacs each of 30°, divided each day into 24 hours, each hour into 60 minutes and so on.
+          <span class="meta">11:12 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Ohhh! That's very interesting!
+          <span class="meta">11:13</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          In fact, আমরা ভাবি আমরা decimal system use করি কারণ আমাদের হাতে 10 টা আঙুল আছে বলে।
+          <span class="meta">11:14 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          কিন্তু human fingers are also capable of using base 12.
+          <span class="meta">11:15 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Really?
+          <span class="meta">11:15</span>
+        </div>
+      </div>      
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          হ্যাঁ রে!
+          <span class="meta">11:16 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>      
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          তুই 2 টো finger crease এর মাঝামাঝি region গুলো enumerate করে দ্যাখ there are 3 regions in each finger.
+          <span class="meta">11:17 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Considering only 4 fingers (leaving out the thumb which is used for counting), you get 12 such regions.
+          <span class="meta">11:18 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          enabling us to count in base 12!
+          <span class="meta">11:19 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>      
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          There's a similar way to use base 60.
+          <span class="meta">11:20 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>          
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Point is, using these highly divisible base systems is much more natural than we think!
+          <span class="meta">11:21 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          উফ ন্যাদা you're so smart baybbbb, just pawrrina নিতে!
+          <span class="meta">11:23</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          নিস না।
+          <span class="meta">11:24 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Swaag!
+          <span class="meta">11:25</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Okay then আমাদের calendar টা কি?
+          <span class="meta">11:25</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          আমি বাংলা calendar এ আসছি but before that, we should discuss Indian calendar.  Let's consider Marathi calendar.
+          <span class="meta">11:27 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          And understand why "गुढी পাডবা" keeps oscillating instead of staying fixed or steadily drifting.
+          <span class="meta">11:28 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+<!--   <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          তুই দেখবি "गुढी পাডবা" oscillate করে, exactly like দুর্গা পূজো।
+          <span class="meta">11:29 <span class="ticks">✓✓</span></span>
+        </div>
+      </div> -->
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Cool!
+          <span class="meta">11:30</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          এক line এ যদি বলি, Indian calendar is a "lunisolar" calendar.
+          <span class="meta">11:32 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          মানে it is predominantly a lunar calendar, কিন্তু it is not independent of the solar movement.
+          <span class="meta">11:33 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Oh!
+          <span class="meta">11:34</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Right!
+          <span class="meta">11:35 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+           We start by defining 2 types of months:-
+          <span class="meta">11:36 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          <ul>
+            <li> Solar Month: defined as the number of days the sun stays inside a zodiac. </li>
+            <li> Lunar Month: defined using the solar month. </li>
+          </ul>
+          <span class="meta">11:36 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          I think I understand the solar month.
+          <span class="meta">11:38</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          যখন সূর্য একটা রাশি তে ঢুকছে তখন a particular solar month start হচ্ছে।
+          <span class="meta">11:39</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          আর যখন সেই রাশি থেকে বেরিয়ে যাচ্ছে সেই solar month end হচ্ছে।
+          <span class="meta">11:39</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          এইটা তো?
+          <span class="meta">11:40</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Precisely babe!
+          <span class="meta">11:41 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          আকাশে 12 টা রাশি আছে - each spanning 30° - giving you the familiar 12 months of a year.
+          <span class="meta">11:42 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Perfect!
+          <span class="meta">11:43</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          তাহলে lunar month কি defined by the Moon's revolution around Earth, যেমন Hijri Calendar এ হয়?
+          <span class="meta">11:44</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          না babe! Not directly.
+          <span class="meta">11:45 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Actually most confusion এখানেই হয়।
+          <span class="meta">11:46 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Lunar calendar এর lunar month আর lunisolar এর lunar month slightly আলাদা ভাবে defined.
+          <span class="meta">11:47 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          অ্যাঁ!
+          <span class="meta">11:48</span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          2 রকম lunar month!
+          <span class="meta">11:49</span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Lunar calendar এর lunar month has nothing to do with solar months. Solar month defined ই নয়ে lunar calendar এ।
+          <span class="meta">11:51 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          But lunisolar calendar এর lunar month is defined both using lunar cycles and solar months.
+          <span class="meta">11:52 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Seems complicated!
+          <span class="meta">11:53</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Once you know it, it's not that complicated.
+          <span class="meta">11:55 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Okay, explain to me like I'm a 5 year old!
+          <span class="meta">11:57</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          কিন্তু তার আগে এটা বল, এই solar month এর নাম তো নিশ্চয়‌ই January February হবে না।
+          <span class="meta">11:58</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          How are they named?
+          <span class="meta">11:58</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Right! মাসের নাম গুলোর সাথে actually আমরা সবাই খুব‌ই familiar:
+          <span class="meta">12:00 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          বৈশাখ<br>
+          জ্যৈষ্ঠ<br>
+          আষাঢ়<br>
+          শ্রাবণ<br>
+          ভাদ্র<br>
+          আশ্বিন<br>
+          কার্ত্তিক<br>
+          মৃগশিরা (অগ্রহায়ণ)<br>
+          পৌষ<br>
+          মাঘ<br>
+          ফাল্গুন<br>
+          চৈত্র
+          <span class="meta">12:01 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Ahhhh😃! Wait অগ্রহায়ণ ই মৃগশিরা?
+          <span class="meta">12:02</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          ও হ্যাঁ হ্যাঁ। মৃগশিরা মানে তো হরিনের মাথা!
+          <span class="meta">12:03</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          হরিন যেনো কে ছিলো? Orion বোধায়! কিন্তু অগ্রহায়ণ কেন যেন
+          <span class="meta">12:04</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Wait wait babe ওটা পরে বলব!
+          <span class="meta">12:05 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          আগে বলি এই নাম গুলো এল কোথা থেকে। 😬
+          <span class="meta">12:06 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          এগুলোর নক্ষত্রের নাম না?
+          <span class="meta">12:07</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          এই পাণু টা সব excitement নষ্ট করে দিলো! মাল্টা আর কি কি বলেছে?
+          <span class="meta">12:08 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Just পাণু নয়, but হ্যাঁ I know নক্ষত্র is basically the same as Zodiacs except যে এরা much smaller.
+          <span class="meta">12:09</span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          They subdivide the Zodiacs and a few other constellations.
+          <span class="meta">12:10</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          More importantly, everyday, the moon moves from one নক্ষত্র to another.
+          <span class="meta">12:11</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          আমার কাছে একটা screenshot নেওয়া আছে নক্ষত্র গুলোর। তোকে পাঠাচ্ছি দ্যাখ।
+          <span class="meta">12:12</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble image-bubble">
+          <div class="name">Doi</div>
+           <img src="media/Nakshatra.png" alt="Nakshatra">
+           <div class="caption">
+            Sky is divided into 27 <i>Nakshatras</i>.<br>
+            <br>
+            Most of the <i>Nakashatras</i> are actually part of a Zodiac.<br>
+            <br>
+            <b>Ashwini</b> and <b>Bharani</b> are parts of Aries.<br>
+            <br>
+            Few outliers such as <b>Mrigshirsha</b> & <b>Ardra</b> that are parts of Orion - which isn't a Zodiac.<br>
+            <br>
+            Each day, the Moon lies in only one <i>Nakshatra</i>. 
+           </div>
+          <span class="meta">12:13</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          তুই জ্যোতিষী হয়ে যা বলছি শোন্, অনেক কামাবি!
+          <span class="meta">12:15 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          না ওটা পাণু হবে।
+          <span class="meta">12:16</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          সেই!
+          <span class="meta">12:16 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          And since the moon takes 27 days to undergo a complete revolution around Earth, there are 27 নক্ষত্র।
+          <span class="meta">12:18</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          কিন্তু babe didn't I tell you that New Moon to New Moon takes about 29.5 days?
+          <span class="meta">12:19 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          How come one complete revolution is only 27 days?
+          <span class="meta">12:19 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          উউউ! I like that you are testing me কিন্তু babe I am also somewhat of an astronomer you know?
+          <span class="meta">12:21</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Astrologer you mean!
+          <span class="meta">12:22 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Savage!
+          <span class="meta">12:22</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Basically যেটা হচ্ছে - the Moon takes 27 days to complete one revolution around Earth.
+          <span class="meta">12:23</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Had the Earth been still and not orbiting the Sun, তাহলে New Moon to New Moon length টাও 27 days ই হতো।
+          <span class="meta">12:24</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          ছবিটা কিছুটা এরকম।
+          <span class="meta">12:25</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble image-bubble">
+          <div class="name">Doi</div>
+          <img src="media/New_Moon.png" alt="New Moon">
+          <div class="caption">
+            The Moon is in its অমাবস্যা phase - since it lies in between the Earth & the Sun.<br>
+            <br>
+            The Moon makes a full turn around the Earth in about 27 days.<br>
+            <br>
+            Had the Earth not moved from its position, it would have come back to its অমাবস্যা phase again.<br>
+            <br>
+            This is <b>Sidereal lunar month</b> or নক্ষত্র মাস। 
+          </div>
+          <span class="meta">12:26</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          কিন্তু যেহেতু Earth ও Sun কে orbit করছে
+          <span class="meta">12:28</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          তাই যতক্ষণে Moon one revolution complete করছে, ততক্ষণে Earth একটু move করে যাচ্ছে।
+          <span class="meta">12:29</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          তাই আবার New Moon হতে extra কিছু দিন লাগছে।
+          <span class="meta">12:30</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          precisely speaking 2-2.5 দিন extra.
+          <span class="meta">12:30</span>
+        </div>
+      </div>
+
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          <div class="img-row">
+           <img src="media/Sidereal.png" alt="Sidereal">
+           <img src="media/Synodic.png" alt="Synodic">
+          </div>
+          <div class="caption">
+          (Top) By the time the Moon makes a full turn around Earth, the Earth has also moved ahead.<br>
+          <br>
+          (Bottom) The Moon needs to turn a little more to come back to its original অমাবস্যা phase. This extra turn takes roughly 2 more days.<br>
+          <br>
+          This is called <b>Synodic lunar month</b> or তিথি মাস।
+          </div>
+          <span class="meta">12:32</span>
+        </div>
+      </div>
+
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          চুমু babe চুমু!
+          <span class="meta">12:34 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          এই 27 days এর cycle টাকে "Sidereal Month" বলে।
+          <span class="meta">12:35</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          আর এই 29.5 days এর cycle টাকে বলে "Synodic Month".
+          <span class="meta">12:35</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Hijri Calendar এর lunar month is this Synodic Month right?
+          <span class="meta">12:36</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Right babe!
+          <span class="meta">12:37 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Lunisolar calendar এর lunar month ও 29.5 days.
+          <span class="meta">12:38 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          তাই Indian calendar এর lunar month ও actually Synodic Month.
+          <span class="meta">12:39 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Oh আচ্ছা।
+          <span class="meta">12:40</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Right!
+          <span class="meta">12:41 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          আর তাহলে এটাও বল্, 27 টা নক্ষত্রের মধ্যে শুধু 12 টাই কেন month name হলো?
+          <span class="meta">12:42 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          것도 Synodic আর Sidereal Month এর difference এর জন্য।
+          <span class="meta">12:43</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Wait babe, let me send you a chart I made. এটা দেখে দেখে বললে সুবিধা হবে।
+          <span class="meta">12:44</span>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-title">Moon & Nakshatra</div>
+        <table>
+          <thead>
+            <tr>
+              <th> Moon's Phase </th>
+              <th> Underlying Nakshatra </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><b>পূর্ণিমা</b></td><td><b>বিশাখা</b></td></tr>
+            <tr><td>প্রতিপদ</td><td>অনুরাধা</td></tr>
+            <tr><td>দ্বিতীয়া</td><td>জ্যেষ্ঠা</td></tr>
+            <tr><td>তৃতীয়া</td><td>মূলা</td></tr>
+            <tr><td>চতুর্থী</td><td>পূর্ব আষাঢ়া</td></tr>
+            <tr><td>পঞ্চমী</td><td>উত্তর আষাঢ়া</td></tr>
+            <tr><td>ষষ্ঠী</td><td>শ্রবণা</td></tr>
+            <tr><td>সপ্তমী</td><td>ধনিষ্ঠা</td></tr>
+            <tr><td>অষ্টমী</td><td>শতভিষা</td></tr>
+            <tr><td>নবমী</td><td>পূর্ব ভাদ্রপদ</td></tr>
+            <tr><td>দশমী</td><td>উত্তর ভাদ্রপদ</td></tr>
+            <tr><td>একাদশী</td><td>রেবতী</td></tr>
+            <tr><td>দ্বাদশী</td><td>অশ্বিনী</td>></tr>
+            <tr><td>ত্রয়োদশী</td><td>ভরণী </td></tr>
+            <tr><td>চতুর্দশী</td><td>কৃত্তিকা</td></tr>
+            <tr><td>অমাবস্যা</td><td>রোহিণী</td></tr>
+            <tr><td>প্রতিপদ</td><td>মৃগশিরা</td></tr>
+            <tr><td>দ্বিতীয়া</td><td>আর্দ্রা</td></tr>
+            <tr><td>তৃতীয়া</td><td>পুনর্বসু</td></tr>
+            <tr><td>চতুর্থী</td><td>পুষ্যা</td></tr>
+            <tr><td>পঞ্চমী</td><td>অশ্লেষা</td></tr>
+            <tr><td>ষষ্ঠী</td><td>মঘা</td></tr>
+            <tr><td>সপ্তমী</td><td>পূর্ব ফাল্গুনী</td></tr>
+            <tr><td>অষ্টমী</td><td>উত্তর ফাল্গুনী</td></tr>
+            <tr><td>নবমী</td><td>হস্তা</td></tr>
+            <tr><td>দশমী</td><td>চিত্রা</td></tr>
+            <tr><td>একাদশী</td><td>স্বাতী</td></tr>
+            <tr><td><b>দ্বাদশী</b></td><td><b>বিশাখা</b></td></tr>
+            <tr><td>ত্রয়োদশী</td><td>অনুরাধা</td></tr>
+            <tr><td>চতুর্দশী</td><td>জ্যেষ্ঠা</td></tr>
+            <tr><td><b>পূর্ণিমা </b></td><td><b>জ্যেষ্ঠা</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          দাদা দাদা, আমি পূর্ব আষাঢ় তিথি তে জন্মেছি আর আমার boyfriend মৃগশিরা তে।
+          <span class="meta">12:48 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          আমাদের মিলন শুভো হবে তো?
+          <span class="meta">12:48 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>      
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          অবশ্য‌ই বৎস্য!
+          <span class="meta">12:49</span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          খালি একটাই সমস্যা।
+          <span class="meta">12:50</span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          According to the Gay book of Astrology (Gastrology), হরিনের মাথা যদি কেউ আষাঢ় মাসে চিবায় তাহলে খুব gas হয়ে।
+          <span class="meta">12:51</span>
+        </div>
+      </div>
+      
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          তাই তুমি কুণ্ডুর মুণ্ডু remaining 11 মাস ধরে চিবিও!
+          <span class="meta">12:51</span>
+        </div>
+      </div>    
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Told you! তোর দ্বারাই হবে Astrology!
+          <span class="meta">12:52 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          বাল!
+          <span class="meta">12:53</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          এবার chart টা দ্যাখ একবার।
+          <span class="meta">12:53</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          হ্যাঁ বল।
+          <span class="meta">12:54 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Chart e I have assumed আজ পূর্ণিমা, আর চাঁদ আজকে বিশাখা নক্ষত্রের উপর আছে।
+          <span class="meta">12:55</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          বেশ।
+          <span class="meta">12:56 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Then কালকে চাঁদ next নক্ষত্রের উপর থাকবে, i.e., অনুরাধার উপর।
+          <span class="meta">12:57</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Similarly, তার পরের দিন চাঁদ জ্যেষ্ঠার উপর থাকবে।
+          <span class="meta">12:58</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          এরম করে 27 দিন পর, চাঁদ আবার বিশাখার উপর ফিরে আসবে।
+          <span class="meta">12:59</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Okay!
+          <span class="meta">13:00 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          কিন্তু দ্যাখ 27 দিন পর, চাঁদ এখনো Full Moon হয় নি। সেটা হতে প্রায় 2 দিন বাকি।
+          <span class="meta">13:01</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Right!
+          <span class="meta">13:02 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          28th day তে চাঁদ আবার অনুরাধার উপর যাবে কিন্তু তখনো Full Moon হয়ে নি।
+          <span class="meta">13:03</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Finally, 29th day তে চাঁদ জ্যেষ্ঠার উপর যাবে, and now it's a Full Moon!
+          <span class="meta">13:04</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Exactly!
+          <span class="meta">13:05 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          তাহলে the initial Full Moon and the final Full Moon - both of these skipped অনুরাধা।
+          <span class="meta">13:06</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          In fact if we keep doing this, we will see বছরের কোনো Full Moon ই অনুরাধা নক্ষত্রের উপর আসে না।
+          <span class="meta">13:07</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Dayumm!
+          <span class="meta">13:08 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          As if তুই জানিস না!
+          <span class="meta">13:09</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          যাই হোক, similarly ওই 12 টা নক্ষত্র ছাড়া আর বাকি কোনো টার উপরেই Full Moon থাকে না।
+          <span class="meta">13:10</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Babe তুমি এতো কবে থেকে জানলে babe?
+          <span class="meta">13:12 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          হে হে!
+          <span class="meta">13:13</span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          তুমি জানো babe I went to the stargazing team as a speaker for the first time and I became a superstar overnight!
+          <span class="meta">13:14</span>
+        </div>
+      </div>
+      
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          প্রায় 150 school students ছিল।
+          <span class="meta">13:15</span>
+        </div>
+      </div>      
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          They even came to me for autographs!
+          <span class="meta">13:16</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          উফ babe you're so smart baybbbb, just pawrrina নিতে!
+          <span class="meta">13:18 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Don't worry babe তোমাকে দেবো না!
+          <span class="meta">13:19</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Burrrn!
+          <span class="meta">13:20 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          হে হে!
+          <span class="meta">13:21</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          আচ্ছা babe, তাহলে কি এটা বলা যায়?
+          <span class="meta">13:22</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Full Moon যখন বিশাখার উপর থাকছে তখন বৈশাখ মাস।
+          <span class="meta">13:23</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Then after 30 days the Full Moon is on জ্যৈষ্ঠা।
+          <span class="meta">13:23</span>
+        </div>
+      </div>      
+      
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          তাই জন্য বৈশাখ এর পর জ্যৈষ্ঠ?
+          <span class="meta">13:24</span>
+        </div>
+      </div>
+   
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Babe believe me I thought this was the case for soooo long!
+          <span class="meta">13:26 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          It's so tempting to believe so, and in fact the 2nd part is actually correct!
+          <span class="meta">13:27 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          বৈশাখ এর পর এই কারণেই জ্যৈষ্ঠ হয়ে।
+          <span class="meta">13:28 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Also, তুই যদি বৈশাখ মাসের এর Full Moon কে দেখিস, you would find যে কোনো কোনো year এ, চাঁদ সত্যি বিশাখার উপরেই আছে।
+          <span class="meta">13:29 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          কিন্তু that usually isn't the start of বৈশাখ মাস।
+          <span class="meta">13:30 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>      
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Surprisingly, কোনো কোনো year এ, বৈশাখ মাসের Full Moon কে তুই জ্যৈষ্ঠর উপর দেখবি।
+          <span class="meta">13:31 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          এই ভাই কঠিন মনে হচ্ছে খুব।
+          <span class="meta">13:32</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          না রে দাঁড়া না! আর বেশি explain করতে লাগবে না।
+          <span class="meta">13:33 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Okay, আমি তোর chart টা একটু modify করে পাঠাচ্ছি। তাহলেই অনেক টাই easy হয়ে যাবে!
+          <span class="meta">13:35 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          পাঠা।
+          <span class="meta">13:36</span>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-title">Nakshatra & its Antipodal Zodiac</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Nakshatra</th>
+              <th>Part Of (Nearest Zodiac)</th>
+              <th>Antipodal Zodiac</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>বিশাখা</td><td>Libra</td><td>Aries</td></tr>
+            <tr><td>জ্যেষ্ঠা</td><td>Scorpius</td><td>Taurus</td></tr>
+            <tr><td>আষাঢ়া</td><td>Sagittarius</td><td>Gemini</td></tr>
+            <tr><td>শ্রবণা</td><td>Capricornus</td><td>Cancer</td></tr>
+            <tr><td>ভাদ্রপদ</td><td>Aquarius</td><td>Leo</td></tr>
+            <tr><td>অশ্বিনী</td><td>Aries</td><td>Virgo</td></tr>
+            <tr><td>কৃত্তিকা</td><td>Taurus</td><td>Libra</td></tr>
+            <tr><td>মৃগশিরা</td><td>Taurus</td><td>Scorpius</td></tr>
+            <tr><td>পুষ্যা</td><td>Cancer</td><td>Sagittarius</td></tr>
+            <tr><td>মঘা</td><td>Leo</td><td>Capricornus</td></tr>
+            <tr><td>ফাল্গুনী</td><td>Leo</td><td>Aquarius</td></tr>
+            <tr><td>চিত্রা</td><td>Virgo</td><td>Pisces</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          আমি basically relevant নক্ষত্র গুলো রাখলাম এই list টায়।
+          <span class="meta">13:39 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          আর correspondingly কোন nearest zodiac এর part.
+          <span class="meta">13:40 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>      
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          But most importantly, 3rd column এ দ্যাখ আমি সেই zodiac টা লিখেছি যেটা exact opposite to the given নক্ষত্র।
+          <span class="meta">13:41 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Right perfect!
+          <span class="meta">13:42</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Now I can immediately answer your question.
+          <span class="meta">13:43 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          How & why are the solar months named after নক্ষত্র?
+          <span class="meta">13:44 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>      
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          I think I get it but go on!
+          <span class="meta">13:45</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Right!
+          <span class="meta">13:46 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          As you might have guessed, Sun যখন Aries এ ঢুকছে, তখন Aries এর exact opposite নক্ষত্রের নাম বিশাখা।
+          <span class="meta">13:47 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>      
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          তাই Sun Aries এ ঢোকা থেকে বেরিয়ে যাওয়া অবধি - এই solar month টার নাম হলো বৈশাখ।
+          <span class="meta">13:48</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Precisely!
+          <span class="meta">13:49 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble image-bubble">
+          <div class="name">Nyada</div> 
+          <img src="media/Solar_Month.png" alt="Solar Month">
+          <div class="caption">
+            The Zodiacs and their corresponding solar months.
+          </div>
+          <span class="meta">13:50 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>     
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          এতো কঠিন করে করা কি দরকার ছিল?
+          <span class="meta">13:52</span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Aries দিয়েই তো মাস টার নাম দিতে পারত!
+          <span class="meta">13:53</span>
+        </div>
+      </div>      
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          কি যেন বাংলা নাম টা?
+          <span class="meta">13:54</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          মেষ রাশি।
+          <span class="meta">13:54 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Right!
+          <span class="meta">13:55</span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Solar Month টার নাম মেষ ‌ই বলতে পারত না?
+          <span class="meta">13:56</span>
+        </div>
+      </div>      
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          না babe that would cost a lot.
+          <span class="meta">13:58 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          প্রথমত, luni solar calendar এসেছে lunar calendar এর পরে।
+          <span class="meta">13:59 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          আর lunar calendar এ already 12 টা lunar month এর নাম ব্যবহার করা হয়ে গেছে।
+          <span class="meta">14:00 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          তাহলে তোকে a new dozen month নাম রাখতে হবে for the solar months!
+          <span class="meta">14:01 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          That's true!
+          <span class="meta">14:02</span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          কিন্তু তাহলে এতো complicated ভাবে, zodiac টার opposite নক্ষত্র দিয়ে নাম করার কি দরকার?
+          <span class="meta">14:03</span>
+        </div>
+      </div> 
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Because it's pretty reliable!
+          <span class="meta">14:05 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Babe remind me, what is the position of the Moon wrt to the Earth and the Sun during a পূর্ণিমা?
+          <span class="meta">14:06 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Exactly opposite to the Sun.
+          <span class="meta">14:07</span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          মানে the Earth is between the Sun and the Moon যখন পূর্ণিমা হয়ে।
+          <span class="meta">14:08</span>
+        </div>
+      </div>      
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Also, solar months & lunar months have roughly the same length.
+          <span class="meta">14:09 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Approx 30 days, right?
+          <span class="meta">14:10 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>      
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          ঠিক!
+          <span class="meta">14:10</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Therefore, on an average, every solar month contains one and only one পূর্ণিমা।
+          <span class="meta">14:12 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          তাহলে যখন Sun Aries এ ঢুকছে
+          <span class="meta">14:13 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          তখন the Full Moon (যেটা exactly opposite to the Sun)
+          <span class="meta">14:14</span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Will lie on বিশাখা (যেটা exactly opposite to Aries)!
+          <span class="meta">14:15</span>
+        </div>
+      </div>      
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Hence, the solar month is named বৈশাখ।
+          <span class="meta">14:16 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Sexy boyyy!
+          <span class="meta">14:17</span>
+        </div>
+      </div>
+
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          মানে সেই পূর্ণিমার চাঁদ যে নক্ষত্রে আছে সেই নক্ষত্রের নাম দিয়েই মাস start হল।
+          <span class="meta">14:18</span>
+        </div>
+      </div>
+      
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          কিন্তু খুব ঘুরিয়ে পেঁচিয়ে!
+          <span class="meta">14:19</span>
+        </div>
+      </div>      
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          I get it though. You had to include the Sun in the picture.
+          <span class="meta">14:20</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          সেইটাই।
+          <span class="meta">14:21 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          If the Sun doesn't play any role, then your calendar becomes a lunar calendar and it starts drifting just like Hijri.
+          <span class="meta">14:22 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>      
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          সেইটাই।
+          <span class="meta">14:23</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          To sum it up
+          <span class="meta">14:24 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          যখন সূর্য Aries এ ঢুকছে তখন বৈশাখ মাস শুরু হচ্ছে, আর যখন Aries থেকে বেরচ্ছে তখন বৈশাখ মাস শেষ।
+          <span class="meta">14:25 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>      
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Correct!
+          <span class="meta">14:25</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Any guesses কখন সূর্য Aries এ ঢোকে according to the English calendar?
+          <span class="meta">14:27 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Yeah it's 14th April right?
+          <span class="meta">14:28</span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          পয়লা বৈশাখ?
+          <span class="meta">14:28</span>
+        </div>
+      </div>      
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Since this depends on the motion of the Sun, after a year, the Sun comes back to the same point.
+          <span class="meta">14:30 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          তাই বছর এর পর বছর, 14th April এই Sun Aries এ ঢোকে।
+          <span class="meta">14:31 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Which is why পয়লা বৈশাখ remains fixed.
+          <span class="meta">14:32</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          অসাধারণ!
+          <span class="meta">14:33</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          14th April - 15th May এই period টা কে বৈশাখ মাস বলে।
+          <span class="meta">14:35 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Remember this is a solar month. For clarity we might call it a "solar-বৈশাখ"।
+          <span class="meta">14:36 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Okay, let me guess
+          <span class="meta">14:38</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          If I'm not wrong, just like "solar-বৈশাখ" there's a "lunar-বৈশাখ"।
+          <span class="meta">14:39</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          "Solar-বৈশাখ" fixed থাকে kintu "lunar-বৈশাখ" oscillate করে।
+          <span class="meta">14:40</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          আর এই "गुढी পাডবা" falls on the 1st of lunar-বৈশাখ।
+          <span class="meta">14:41</span>
+        </div>
+      </div>      
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Is this true?
+          <span class="meta">14:42</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          তুমি ‘খ’ পেয়েছো!
+          <span class="meta">14:44 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          খ ?!
+          <span class="meta">14:45</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          You're almost correct except যে বর্গী দের new year 14th March - 14th April এর মধ্যে হয়।
+          <span class="meta">14:47 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div>
+          So it can't be "lunar-বৈশাখ" right?
+          <span class="meta">14:47 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>      
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          ও right right, sorry I mean "lunar-চৈত্র"।
+          <span class="meta">14:49</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Exactly!
+          <span class="meta">14:50 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          In a single sentence
+          <span class="meta">14:51 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          পয়লা বৈশাখ celebrates 1st of "solar-বৈশাখ", তাই ও fixed থাকে।
+          <span class="meta">14:52 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+      
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          गुढी পাডবা celebrates 1st of "lunar-চৈত্র", তাই ও oscillate করে।
+          <span class="meta">14:53 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>      
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          ঠিক যেমন দুর্গা পঞ্চমী is always on the 5th of "lunar-আশ্বিন", তাই ও oscillate করে।
+          <span class="meta">14:54 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          I see!
+          <span class="meta">14:56</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          তাহলে এই "lunar-চৈত্র" আর "solar-চৈত্র" এর difference বুঝলেই, I guess we are done!
+          <span class="meta">14:57</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          একদম।
+          <span class="meta">14:58 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Let's use गुढी পাডবা directly as an example.
+          <span class="meta">14:59 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Sure!
+          <span class="meta">15:00</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Indian calendar এ lunar month শুরু হয়ে অমাবস্যা দিয়ে আর শেষ হয়ে পরের অমাবস্যা তে।
+          <span class="meta">15:02 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Okay.
+          <span class="meta">15:03</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Again babe
+          <span class="meta">15:04 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          If the Full Moon is in বিশাখা when the Sun is in Aries, where do you expect the New Moon was 15 days before?
+          <span class="meta">15:05 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>      
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Ummm, অমাবস্যা তখন হয় যখন Moon থাকে Sun আর Earth এর মধ্যে।
+          <span class="meta">15:06</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          So the New Moon would lie opposite to বিশাখা, which I guess is Aries?
+          <span class="meta">15:07</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Exactly!
+          <span class="meta">15:08 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          When the Sun enters Aries, New Moon is bound to be in Aries.
+          <span class="meta">15:09 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Perfect!
+          <span class="meta">15:10</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          হ্যাঁ।
+          <span class="meta">15:10</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          এবার দেখে বল এই বছর गुढी পাডবা কবে হয়েছিল?
+          <span class="meta">15:12 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          19th March.
+          <span class="meta">15:13</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          আর দ্যাখ Stellarium এর screenshot পাঠাচ্ছি।
+          <span class="meta">15:15 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          14th March এ সূর্য Pisces এ ঢুকছে। Pisces মানে চৈত্র মাস।
+          <span class="meta">15:16 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble image-bubble">
+          <div class="name">Nyada</div> 
+          <img src="media/Solar_Chaitra.jpg" alt="Solar Chaitra">
+          <div class="caption">
+          Sun leaving Aquarius and entering Pisces on 14th of March. This date marks the beginning of the <b>solar month</b> <i>Chaitra</i>.<br>
+          <br>
+          After every 365-ish days, the Sun comes back to the same point. Hence every year, the Sun enters Pisces on 14th March.<br>
+          <br>
+          This date remains fixed year after year.<br>
+          <br>
+          <b>Note:</b> This is not the "lunar-Chaitra".    
+          </div>
+          <span class="meta">15:18 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          তো তাহলে solar-চৈত্র মাস start হচ্ছে 14th March এ।
+          <span class="meta">15:20</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          একদম।
+          <span class="meta">15:21 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          কিন্তু তখনো চাঁদ সূর্য থেকে পিছিয়ে ছিল।
+          <span class="meta">15:22 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          ঠিক 5 দিন পর 19th March এ চাঁদ সূর্যের সামনে এল।
+          <span class="meta">15:23 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+           
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          এই দিন অমাবস্যা। তাই এই দিন থেকে "lunar-চৈত্র" start হল।
+          <span class="meta">15:24 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble image-bubble">
+          <div class="name">Nyada</div> 
+          <img src="media/Gudi_Padwa_2026.jpg" alt="Gudi Padwa 2026">
+          <div class="caption">
+            This New Moon marks the beginning of the <b>lunar month</b> Chaitra. This happens on 19th of March, when the Sun has already entered Pisces 5 days ago.<br>
+            <br>
+            The "solar-Chaitra" has already begun while this "lunar-Chaitra" took 5 more days to begin.<br>
+            <br>
+            <b>Note:</b> This event of the Moon coming in front of the Sun happens entirely inside Pisces - hence the lunar month is named lunar-<i>Chaitra</i> instead of (say) lunar-<i>Vysakh</i>.
+          </div>
+          <span class="meta">15:26 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          I presume যেহেতু এই Sun-Moon এর মিলন Pisces এর মধ্যে ঘটছে
+          <span class="meta">15:28</span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          তাই এটা "lunar-বৈশাখ" বা অন্য কোনো lunar month না হয়ে "lunar-চৈত্র" ই হলো।
+          <span class="meta">15:29</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Precisely!
+          <span class="meta">15:30 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          এবার দ্যাখ ঠিক এক বছর পর, 19th March এ, সূর্য একি যায়গায় ফিরে আসবে।
+          <span class="meta">15:32 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          By that time, solar-চৈত্র already start হয়ে 5 দিন হয়ে গেছে।
+          <span class="meta">15:33 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          কিন্তু দ্যাখ এই দিনটা আর অমাবস্যা নয়।
+          <span class="meta">15:34 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble image-bubble">
+          <div class="name">Nyada</div> 
+          <img src="media/image6.jpg" alt="2027">
+          <div class="caption">
+            The Sun is back at the same spot a year later (19th March 2027), but the Moon is no longer in front of the Sun.<br>
+            <br>
+            The Moon would have already appeared at this exact spot 11 days before, but the Sun wouldn't have been here yet!
+          </div>
+          <span class="meta">15:36 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          কারণ চাঁদ কে একি যায়গায় ফিরে আসতে 354 days লাগে। তাই ও already 11 দিন আগে একি যায়গায় এসে গেছিল।
+          <span class="meta">15:38</span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          By the time the Sun comes back to the same point, the Moon has already moved ahead.
+          <span class="meta">15:39</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          তাই জন্য on 19th of March 2027, lunar-চৈত্র তখনও start হয় নি।
+          <span class="meta">15:40 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          আর কিছু দিন পর আবার যখন চাঁদ সূর্যের সামনে আসবে, তখন start হবে lunar-চৈত্র।
+          <span class="meta">15:41 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Stellarium এ দ্যাখ সেটা 7th April বলছে।
+          <span class="meta">15:42 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble image-bubble">
+          <div class="name">Nyada</div> 
+          <img src="media/Gudi_Padwa_2027.jpg" alt="Gudi Padwa 2027">
+          <div class="caption">
+          The reunion of Sun and Moon happens on 7th April 2027, <b>19 days later than the previous year</b>.<br>
+          <br>
+          In 2027, the lunar-Chaitra begins on this day, which is 24 days after the solar-Chaitra.
+          </div>
+          <span class="meta">15:44 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          হ্যাঁ আর गुढी পাডবা 2027 is also on 7th April. Wow!
+          <span class="meta">15:45</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Yep!
+          <span class="meta">15:46 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          By 7th April, solar-চৈত্র কিন্তু already 24 days হল start হয়ে গেছে
+          <span class="meta">15:47 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          কিন্তু lunar-চৈত্র just start হল।
+          <span class="meta">15:48 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Right!
+          <span class="meta">15:49</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          Finally, যদি তুই 2028 এ দেখিস, তখন তুই দেখবি गुढी পাডবা পিছিয়ে এসেছে।
+          <span class="meta">15:51 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          কারণ 2028 এ আবার Pisces এর মধ্যে সূর্য-চন্দ্রের মিলম ঘটছে March মাসে, specifically 26th March.
+          <span class="meta">15:52 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+
+      <div class="message-row sent">
+        <div class="bubble image-bubble">
+          <div class="name">Nyada</div> 
+          <img src="media/Gudi_Padwa_2028.jpg" alt="Gudi Padwa 2028">
+          <div class="caption">
+          The reunion of Sun and Moon now happens on 26th of March 2028, <b>12 days earlier than the previous year</b>.
+          </div>
+          <span class="meta">15:54 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          And this keeps happening year after year.
+          <span class="meta">15:55</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          I see, so দুর্গা পূজো ও এই কারণেই oscillate করে?
+          <span class="meta">15:56</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          হ্যাঁ exactly এই কারণ এ।
+          <span class="meta">15:57 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          To conclude
+          <span class="meta">15:58 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          মারাঠা calendar এ, months গুলো lunar months, আর festival গুলো ও lunar festivals.
+          <span class="meta">15:59 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          বাংলা calendar এ, months গুলো solar months কিন্তু maximum festivals গুলো lunar festivals.
+          <span class="meta">16:00 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+      <!-- Doi -->
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          Wow babe! It was like an epiphany!
+          <span class="meta">16:02</span>
+        </div>
+      </div>
+
+      <div class="message-row received">
+        <div class="bubble">
+          <div class="name">Doi</div>
+          শুভ নববর্ষ☺️!
+          <span class="meta">16:03</span>
+        </div>
+      </div>
+
+      <!-- Nyada -->
+      <div class="message-row sent">
+        <div class="bubble">
+          <div class="name">Nyada</div> 
+          শুভ নববর্ষ😄!
+          <span class="meta">16:04 <span class="ticks">✓✓</span></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
